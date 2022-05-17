@@ -1,4 +1,12 @@
-export default function TableSearch() {
+import { UserResult } from "../../services/users/types";
+
+interface TableSearchProps{
+  listUsers: Array<UserResult>|undefined
+}
+
+export default function TableSearch({listUsers}:TableSearchProps) {
+  const optionsLanguage = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
+
   return (
     <div className={`w-100 flex flex-col items-center justify-center`}>
       <div className="w-4/5 mb-4">
@@ -47,18 +55,24 @@ export default function TableSearch() {
           </tr>
         </thead>
         <tbody>
-          <tr className="bg-white border-b hover:bg-gray-50 text-gray-900">
-            <th scope="row" className="px-6 py-4 font-medium">
-              Apple MacBook Pro 17
-            </th>
-            <td className="px-6 py-4">Sliver</td>
-            <td className="px-6 py-4">Laptop</td>
-            <td className="px-6 py-4">
-              <a href="#" className="font-medium text-blue-600 hover:underline">
-                Edit
-              </a>
-            </td>
-          </tr>
+          {
+            listUsers&&listUsers.map(user=>{
+              return (
+                <tr className="bg-white border-b hover:bg-gray-50 text-gray-900" key={user.id.value}>
+                  <td scope="row" className="px-6 py-4 font-medium">
+                    {user.name.title} {user.name.first} {user.name.last}
+                  </td>
+                  <td className="px-6 py-4">{user.gender}</td>
+                  <td className="px-6 py-4">{new Date(user.dob.date).toLocaleDateString()}</td>
+                  <td className="px-6 py-4">
+                    <button className="font-medium text-blue-600 hover:underline">
+                      See
+                    </button>
+                  </td>
+                </tr>
+              )
+            })
+          }
         </tbody>
       </table>
     </div>
