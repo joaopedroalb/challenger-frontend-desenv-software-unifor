@@ -11,6 +11,7 @@ import loading from "../assets/Loading.svg";
 import { UserListContext } from "../context/UserListContext";
 import Modal from "./components/Modal";
 import { useDisableBodyScroll } from "../hooks/useDisableBodyScroll";
+import UserInfoCard from "./components/UserInfoCard";
 
 const PICTURE_DEFAULT =
   "https://mrconfeccoes.com.br/wp-content/uploads/2018/03/default.jpg";
@@ -105,7 +106,7 @@ const Home: NextPage = () => {
       </div>
 
       <Modal isActive={isModalActive} handleCloseModal={closeModal}>
-        <div>Modal</div>
+        <UserInfoCard user={selectedUser} closeEvent={closeModal}/>
       </Modal>
     </>
   );
