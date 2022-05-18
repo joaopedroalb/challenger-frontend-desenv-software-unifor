@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { UserResult } from "../services/users/types";
 
 type UserInfoCardProps = {
@@ -10,7 +11,7 @@ export default function UserInfoCard({ user,closeEvent }: UserInfoCardProps) {
     if(!user) return <></>
     
     return (
-        <div className="w-[450px] max-w-[80%] bg-white flex flex-col h-[400px] max-h-[80%] relative" 
+        <div className="w-[450px] max-w-[80%] bg-white flex flex-col min-h-[400px] max-h-[80%] relative" 
             onClick={(event)=>event.stopPropagation()}
         >
             <div className="flex justify-center absolute top-[-65px] w-full ">
@@ -25,15 +26,17 @@ export default function UserInfoCard({ user,closeEvent }: UserInfoCardProps) {
             >x</span>
             <div className={`flex flex-col mt-[70px] items-center gap-4 p-4`}>
                 <h1>{user.name.title} {user.name.first} {user.name.last}</h1>
-                <div>
+                <div className={`flex flex-col  gap-4 p-4`}>
                     <p>Email: {user.email}</p>
                     <p>Gênero: {user.gender}</p>
                     <p>Data de nascimento: {new Date(user.dob.date).toLocaleDateString()}</p>
                     <p>Telefone: {user.phone}</p>
                     <p>Nacionalidade {user.location.country}</p>
                     <p>Endereço: {user.location.street.name} {user.location.street.number}</p>
-                    <p>URL {user.nat}</p>
                     <p>Id: {user.login.uuid}</p>
+                    <Link href={`/dashboard?id=${user.login.uuid}`}>
+                        <button className="bg-blue-600 text-white p-4 rounded-xl">Navegar</button>
+                    </Link>
                 </div>
             </div>
         </div>

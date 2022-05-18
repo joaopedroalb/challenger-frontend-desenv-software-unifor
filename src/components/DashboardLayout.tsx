@@ -9,19 +9,18 @@ import { UserListContext } from "../context/UserListContext";
 import Modal from "./Modal";
 import { useDisableBodyScroll } from "../hooks/useDisableBodyScroll";
 import UserInfoCard from "./UserInfoCard";
+import Navbar from "./Navbar";
 
-const PICTURE_DEFAULT =
-  "https://mrconfeccoes.com.br/wp-content/uploads/2018/03/default.jpg";
-const PERSON_IMG_DEFAULT =
-  "http://ibaseminario.com.br/novo/wp-content/uploads/2013/09/default-avatar.png";
+type DashboardProps ={
+  id:string|string[]|null|undefined
+}
 
-const DashboardLayout = () => {
-  const { setUserList } = useContext(UserListContext);
+const DashboardLayout = ({id}:DashboardProps) => {
+  const { setUserList, userList } = useContext(UserListContext);
 
-  const [isModalActive,setIsModalActive] = useState(false)
   const [selectedUser,setSelectedUser] = useState<UserResult|null>(null)
 
-  useDisableBodyScroll(isModalActive)
+  useDisableBodyScroll(selectedUser!=null)
 
   const {
     data: listUser,
@@ -38,13 +37,11 @@ const DashboardLayout = () => {
   }
 
   const closeModal = () =>{
-    setIsModalActive(false)
     setSelectedUser(null)
   }
 
   const openModalUser = (user:UserResult) =>{
     setSelectedUser(user)
-    setIsModalActive(true)
   }
 
   useEffect(() => {
@@ -52,8 +49,17 @@ const DashboardLayout = () => {
   }, [listUser, setUserList]);
 
   useEffect(() => {
-    refetch();
-  }, [refetch]);
+    if(userList.length==0){
+      refetch()
+    }
+
+    if(id && userList.length>0){
+      const userAux = userList.filter(u=>u.login.uuid == id)[0]
+      if(userAux)
+        setSelectedUser(userAux)
+    }
+    
+  }, [refetch,id]);
 
   if (isLoading) {
     return <Loading />;
@@ -66,22 +72,7 @@ const DashboardLayout = () => {
                   text-slate-700 bg-gray-100 flex flex-col
                   min-h-screen gap-8 pb-8`}
       >
-        <div className="w-full bg-white flex justify-between p-6">
-          <div className="flex items-center gap-2">
-            <img
-              className="object-scale-down h-10 rounded-sm"
-              src={PICTURE_DEFAULT}
-              alt="Blank Image"
-            />
-            <h1 className="font-bold text-2xl">Company</h1>
-          </div>
-
-          <img
-            className="object-scale-down h-10 rounded-full"
-            src={PERSON_IMG_DEFAULT}
-            alt="Person image blank"
-          />
-        </div>
+        <Navbar/>
         <TableSearch seeUserHandle={openModalUser}/>
         <div className="w-full flex items-center justify-center">
           {isFetching ? (
@@ -102,7 +93,7 @@ const DashboardLayout = () => {
         </div>
       </div>
 
-      <Modal isActive={isModalActive} handleCloseModal={closeModal}>
+      <Modal isActive={selectedUser!=null} handleCloseModal={closeModal}>
         <UserInfoCard user={selectedUser} closeEvent={closeModal}/>
       </Modal>
     </>
