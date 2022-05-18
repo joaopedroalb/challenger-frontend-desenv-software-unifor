@@ -20,7 +20,7 @@ const PERSON_IMG_DEFAULT =
 
 const Home: NextPage = () => {
   const { setUserList } = useContext(UserListContext);
-  const [filterName, setFilterName] = useState("");
+
   const [isModalActive,setIsModalActive] = useState(false)
   const [selectedUser,setSelectedUser] = useState<UserResult|null>(null)
 

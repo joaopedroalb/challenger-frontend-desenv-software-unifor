@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { UserListContext } from "../../context/UserListContext";
 import { UserResult } from "../../services/users/types";
 
@@ -10,6 +10,17 @@ type TableSearchProps = {
 export default function TableSearch({seeUserHandle}:TableSearchProps) {
 
   const {userList} = useContext(UserListContext)
+  const [filterName, setFilterName] = useState('')
+
+  const getLisUser = ():Array<UserResult> =>{
+    const resultList = userList.filter(x=>getFullName(x).toLowerCase().includes(filterName.toLowerCase()))
+
+    return resultList
+  }
+
+  const getFullName = (user:UserResult):string =>{
+    return `${user.name.title} ${user.name.first} ${user.name.last}`
+  }
 
   return (
     <div className={`w-100 flex flex-col items-center justify-center`}>
@@ -37,6 +48,7 @@ export default function TableSearch({seeUserHandle}:TableSearchProps) {
             id="table-search"
             className="w-full p-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 "
             placeholder="Search for items"
+            onChange={({target})=>setFilterName(target.value)}
           />
         </div>
       </div>
@@ -60,11 +72,11 @@ export default function TableSearch({seeUserHandle}:TableSearchProps) {
         </thead>
         <tbody>
           {
-            userList&&userList.map((user,index:number)=>{
+            userList&&getLisUser().map((user,index:number)=>{
               return (
                 <tr className="bg-white border-b hover:bg-gray-50 text-gray-900" key={index}>
                   <td scope="row" className="px-6 md:py-4 sm:px-3 font-medium">
-                    {user.name.title} {user.name.first} {user.name.last}
+                    {getFullName(user)}
                   </td>
                   <td className="md:px-6 px-2 md:py-4 py-3">{user.gender}</td>
                   <td className="md:px-6 px-2 md:py-4 py-3">{new Date(user.dob.date).toLocaleDateString()}</td>
