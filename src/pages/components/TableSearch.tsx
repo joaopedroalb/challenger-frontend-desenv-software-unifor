@@ -8,8 +8,9 @@ type TableSearchProps = {
 
 
 export default function TableSearch({seeUserHandle}:TableSearchProps) {
-  const optionsLanguage = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
+
   const {userList} = useContext(UserListContext)
+
   return (
     <div className={`w-100 flex flex-col items-center justify-center`}>
       <div className="w-4/5 mb-4">
@@ -34,7 +35,7 @@ export default function TableSearch({seeUserHandle}:TableSearchProps) {
           <input
             type="text"
             id="table-search"
-            className="w-full p-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 "
+            className="w-full p-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 "
             placeholder="Search for items"
           />
         </div>
@@ -43,16 +44,16 @@ export default function TableSearch({seeUserHandle}:TableSearchProps) {
       <table className="w-4/5 text-sm text-left text-gray-500">
         <thead className="text-xs text-gray-700 uppercase bg-gray-300 ">
           <tr>
-            <th scope="col" className="px-6 py-3">
+            <th scope="col" className="md:px-6 px-2 md:py-4 py-3">
               Name
             </th>
-            <th scope="col" className="px-6 py-3">
+            <th scope="col" className="md:px-6 px-2 md:py-4 py-3">
               Gender
             </th>
-            <th scope="col" className="px-6 py-3">
+            <th scope="col" className="md:px-6 px-2 md:py-4 py-3">
               Birth
             </th>
-            <th scope="col" className="px-6 py-3">
+            <th scope="col" className="md:px-6 px-2 md:py-4 py-3">
               Actions
             </th>
           </tr>
@@ -62,12 +63,12 @@ export default function TableSearch({seeUserHandle}:TableSearchProps) {
             userList&&userList.map((user,index:number)=>{
               return (
                 <tr className="bg-white border-b hover:bg-gray-50 text-gray-900" key={index}>
-                  <td scope="row" className="px-6 py-4 font-medium">
+                  <td scope="row" className="px-6 md:py-4 sm:px-3 font-medium">
                     {user.name.title} {user.name.first} {user.name.last}
                   </td>
-                  <td className="px-6 py-4">{user.gender}</td>
-                  <td className="px-6 py-4">{new Date(user.dob.date).toLocaleDateString()}</td>
-                  <td className="px-6 py-4">
+                  <td className="md:px-6 px-2 md:py-4 py-3">{user.gender}</td>
+                  <td className="md:px-6 px-2 md:py-4 py-3">{new Date(user.dob.date).toLocaleDateString()}</td>
+                  <td className="md:px-6 px-2 md:py-4 py-3">
                     <button className="font-medium text-blue-600 hover:underline" onClick={()=>seeUserHandle(user)}>
                       See
                     </button>
