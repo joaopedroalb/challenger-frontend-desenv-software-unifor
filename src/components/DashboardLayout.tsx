@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
-import { useUser } from "../services/users";
+import { useUserList, useUserById } from "../services/users";
 import { UserResult } from "../services/users/types";
 import Loading from "./Loading";
 import TableSearch from "./TableSearch";
@@ -12,25 +12,29 @@ import UserInfoCard from "./UserInfoCard";
 import Navbar from "./Navbar";
 
 type DashboardProps ={
-  id:string|string[]|null|undefined
+  login:string
+  seed:string
+  page:string
+  results:string
 }
 
-const DashboardLayout = ({id}:DashboardProps) => {
+const DashboardLayout = ({login,seed,page,results}:DashboardProps) => {
   const { setUserList, userList } = useContext(UserListContext);
 
   const [selectedUser,setSelectedUser] = useState<UserResult|null>(null)
 
   useDisableBodyScroll(selectedUser!=null)
 
-  const {
-    data: listUser,
-    isLoading,
-    refetch,
-    isFetching,
-  } = useUser({
-    refetchOnMount: true,
-    enabled: false,
-  });
+  const {data:userById,refetch:refetchId} = useUserById(login,seed,page,results,{
+                                                                      refetchOnMount: false,
+                                                                      refetchOnReconnect:false,
+                                                                      enabled: false,
+                                                                    })
+
+  const { data: listUser,isLoading,refetch,isFetching,} = useUserList({
+                                                                    refetchOnMount: true,
+                                                                    enabled: false,
+                                                                  });
 
   const getNewData = () => {
     refetch();
@@ -49,17 +53,22 @@ const DashboardLayout = ({id}:DashboardProps) => {
   }, [listUser, setUserList]);
 
   useEffect(() => {
+    if(login != '')
+      refetchId()
+
     if(userList.length==0){
       refetch()
-    }
+    }    
+  }, [refetch,refetchId,login,seed,page,results]);
 
-    if(id && userList.length>0){
-      const userAux = userList.filter(u=>u.login.uuid == id)[0]
-      if(userAux)
-        setSelectedUser(userAux)
+  useEffect(()=>{
+    if(userById){
+      console.log('userbyid')
+      console.log({...userById})
+      setSelectedUser(userById)
     }
-    
-  }, [refetch,id]);
+        
+  },[userById,login,seed,page,results])
 
   if (isLoading) {
     return <Loading />;

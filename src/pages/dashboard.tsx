@@ -4,14 +4,20 @@ import DashboardLayout from '../components/DashboardLayout'
 
 export default function Dashboard() {
   const router = useRouter()
-  const {route} = router
-  const {id} = router.query
+  const {login,seed,page,results} = router.query
 
-  useEffect(() => {
-  }, [route,id])
+  const getValueString = (value:any) =>{
+    if(typeof value == 'string')
+      return value
+    return ''
+  }
   
 
   return (
-    <DashboardLayout id={id}/>
+    <DashboardLayout  login={getValueString(login)}
+                      seed={getValueString(seed)}
+                      page={getValueString(page)}
+                      results={getValueString(results)}
+    />
   )
 }
