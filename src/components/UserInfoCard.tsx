@@ -38,11 +38,12 @@ export default function UserInfoCard({ user,closeEvent }: UserInfoCardProps) {
                     <p>Nacionalidade {user.location.country}</p>
                     <p>Endereço: {user.location.street.name} {user.location.street.number}</p>
                     <p>Id: {user.login.uuid}</p>
-                    <CopyToClipboard text={`https://challenger-frontend-desenv-software-unifor.vercel.app//dashboard?login=${user.login.username}&page=${user.info.page}&seed=${user.info.seed}&results=${user.info.results}`}
-                        onCopy={() => setIsCopied(true)}>
-                        <button  className="bg-blue-600 text-white p-4 rounded-xl">Copy URL profile</button>
-                    </CopyToClipboard>
-                    {isCopied ? <span className="text-blue-500">Copied.</span> : null}
+                    {isCopied ? <span className="text-blue-500 text-center">Copied.</span> : (
+                        <CopyToClipboard text={`https://challenger-frontend-desenv-software-unifor.vercel.app//dashboard?login=${user.login.username}&page=${user.info.page}&seed=${user.info.seed}&results=${user.info.results}`}
+                            onCopy={() => setIsCopied(true)}>
+                            <button  className="bg-blue-600 text-white p-4 rounded-xl">Copy URL profile</button>
+                        </CopyToClipboard>
+                    )}
                 </div>
             </div>
         </div>
