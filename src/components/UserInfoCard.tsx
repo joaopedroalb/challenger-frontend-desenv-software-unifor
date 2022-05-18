@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { UserResult } from "../services/users/types";
+import {CopyToClipboard} from 'react-copy-to-clipboard';
+import { useState } from "react";
 
 type UserInfoCardProps = {
   user: UserResult | null;
@@ -7,6 +9,8 @@ type UserInfoCardProps = {
 };
 
 export default function UserInfoCard({ user,closeEvent }: UserInfoCardProps) {
+
+    const [isCopied,setIsCopied] = useState(false)
     
     if(!user) return <></>
     
@@ -34,10 +38,11 @@ export default function UserInfoCard({ user,closeEvent }: UserInfoCardProps) {
                     <p>Nacionalidade {user.location.country}</p>
                     <p>Endereço: {user.location.street.name} {user.location.street.number}</p>
                     <p>Id: {user.login.uuid}</p>
-                    
-                    <Link href={`/dashboard?login=${user.login.username}&page=${user.info.page}&seed=${user.info.seed}&results=${user.info.results}`}>
-                        <button className="bg-blue-600 text-white p-4 rounded-xl">Navegar</button>
-                    </Link>
+                    <CopyToClipboard text={`https://challenger-frontend-desenv-software-unifor.vercel.app//dashboard?login=${user.login.username}&page=${user.info.page}&seed=${user.info.seed}&results=${user.info.results}`}
+                        onCopy={() => setIsCopied(true)}>
+                        <button  className="bg-blue-600 text-white p-4 rounded-xl">Copy URL profile</button>
+                    </CopyToClipboard>
+                    {isCopied ? <span className="text-blue-500">Copied.</span> : null}
                 </div>
             </div>
         </div>
