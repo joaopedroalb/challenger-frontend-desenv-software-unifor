@@ -15,7 +15,7 @@ const PERSON_IMG_DEFAULT = "http://ibaseminario.com.br/novo/wp-content/uploads/2
 
 const Home: NextPage = () => {
 
-  const {userList,setUserList} = useContext(UserListContext)
+  const {setUserList} = useContext(UserListContext)
   const [filterName,setFilterName] = useState('')
   
   const {data:listUser,isLoading,refetch, isFetching} = useUser({
@@ -26,7 +26,7 @@ const Home: NextPage = () => {
    useEffect(()=>{
     if(listUser)
       setUserList(current=>[...current,...listUser])
-  },[listUser])
+  },[listUser,setUserList])
 
   useEffect(()=>{
     refetch()
@@ -56,7 +56,7 @@ const Home: NextPage = () => {
 
         <img className="object-scale-down h-10 rounded-full" src={PERSON_IMG_DEFAULT} alt="Person image blank" />
       </div>
-      <TableSearch listUsers={userList}/>
+      <TableSearch/>
       <div className="w-full flex items-center justify-center">
         {
           isFetching?(
