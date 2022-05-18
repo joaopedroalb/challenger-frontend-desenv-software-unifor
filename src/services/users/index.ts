@@ -12,7 +12,7 @@ export const useUser = (options?:UseQueryOptions<Array<UserResult>>) =>{
 
 async function getUser():Promise<Array<UserResult>>{
     let listResults = []
-    for(let i = 0; i <10; i++){
+    for(let i = 0; i <50; i++){
         const { data } = await api.get("/")
         listResults.push(data.results[0])
     }

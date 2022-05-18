@@ -2,8 +2,12 @@ import { useContext } from "react";
 import { UserListContext } from "../../context/UserListContext";
 import { UserResult } from "../../services/users/types";
 
+type TableSearchProps = {
+  seeUserHandle: (user:UserResult)=>void
+}
 
-export default function TableSearch() {
+
+export default function TableSearch({seeUserHandle}:TableSearchProps) {
   const optionsLanguage = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
   const {userList} = useContext(UserListContext)
   return (
@@ -64,7 +68,7 @@ export default function TableSearch() {
                   <td className="px-6 py-4">{user.gender}</td>
                   <td className="px-6 py-4">{new Date(user.dob.date).toLocaleDateString()}</td>
                   <td className="px-6 py-4">
-                    <button className="font-medium text-blue-600 hover:underline">
+                    <button className="font-medium text-blue-600 hover:underline" onClick={()=>seeUserHandle(user)}>
                       See
                     </button>
                   </td>
