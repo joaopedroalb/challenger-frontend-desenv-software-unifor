@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { useUserList, useUserById } from "../services/users";
 import { UserResult } from "../services/users/types";
 import Loading from "./Loading";
@@ -36,10 +36,6 @@ const DashboardLayout = ({login,seed,page,results}:DashboardProps) => {
                                                                     enabled: false,
                                                                   });
 
-  const getNewData = () => {
-    refetch();
-  }
-
   const closeModal = () =>{
     setSelectedUser(null)
   }
@@ -47,6 +43,23 @@ const DashboardLayout = ({login,seed,page,results}:DashboardProps) => {
   const openModalUser = (user:UserResult) =>{
     setSelectedUser(user)
   }
+
+  const handleScroll = useCallback(
+    async() => {
+      if(window.innerHeight + document.documentElement.scrollTop + 2 < document.documentElement.offsetHeight)
+      return
+    
+    refetch()
+    },
+
+    [refetch],
+  );
+
+
+  useEffect(()=>{
+    window.addEventListener('scroll',handleScroll)
+    return () => window.removeEventListener('scroll',handleScroll)
+  },[handleScroll])
 
   useEffect(() => {
     if (listUser) setUserList((current) => [...current, ...listUser]);
@@ -84,21 +97,15 @@ const DashboardLayout = ({login,seed,page,results}:DashboardProps) => {
         <Navbar/>
         <TableSearch seeUserHandle={openModalUser}/>
         <div className="w-full flex items-center justify-center">
-          {isFetching ? (
+          {isFetching &&(
             <Image
               src={loading}
               height={85}
               width={85}
               alt="Pacman loading gif"
             />
-          ) : (
-            <button
-              className="p-4 bg-gray-500 text-yellow-50"
-              onClick={getNewData}
-            >
-              Loading more
-            </button>
-          )}
+            )
+          }
         </div>
       </div>
 
