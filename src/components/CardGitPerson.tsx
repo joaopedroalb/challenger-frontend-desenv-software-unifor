@@ -7,7 +7,7 @@ type CardGitPersonProps = {
 
 export default function CardGitPerson({name,profile,enroll}:CardGitPersonProps) {
   return (
-    <a href={`https://github.com/${profile}`}>
+    <a href={`https://github.com/${profile}`} target="_blank" rel="noreferrer">
         <div className={`flex flex-col items-center p-8 transition-colors duration-200 transform 
                         cursor-pointer group hover:bg-blue-600 rounded-xl border-2 border-solid border-white
                         max-w-[15rem] text-center h-80 hover:scale-105 transition-transform`}>
