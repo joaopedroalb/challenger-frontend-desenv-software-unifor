@@ -56,9 +56,9 @@ export default function TableSearch({listUsers}:TableSearchProps) {
         </thead>
         <tbody>
           {
-            listUsers&&listUsers.map(user=>{
+            listUsers&&listUsers.map((user,index:number)=>{
               return (
-                <tr className="bg-white border-b hover:bg-gray-50 text-gray-900" key={user.id.value}>
+                <tr className="bg-white border-b hover:bg-gray-50 text-gray-900" key={index}>
                   <td scope="row" className="px-6 py-4 font-medium">
                     {user.name.title} {user.name.first} {user.name.last}
                   </td>
