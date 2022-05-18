@@ -76,8 +76,6 @@ const DashboardLayout = ({login,seed,page,results}:DashboardProps) => {
 
   useEffect(()=>{
     if(userById){
-      console.log('userbyid')
-      console.log({...userById})
       setSelectedUser(userById)
     }
         
