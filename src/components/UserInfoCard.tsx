@@ -1,4 +1,4 @@
-import { UserResult } from "../../services/users/types";
+import { UserResult } from "../services/users/types";
 
 type UserInfoCardProps = {
   user: UserResult | null;

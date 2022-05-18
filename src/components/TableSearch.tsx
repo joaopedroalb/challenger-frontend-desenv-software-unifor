@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
-import { UserListContext } from "../../context/UserListContext";
-import { UserResult } from "../../services/users/types";
+import { UserListContext } from "../context/UserListContext";
+import { UserResult } from "../services/users/types";
 
 type TableSearchProps = {
   seeUserHandle: (user:UserResult)=>void

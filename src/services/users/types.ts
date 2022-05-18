@@ -75,12 +75,5 @@ interface Picture {
     thumbnail: string;
 }
 
-interface Info {
-    seed: string;
-    results: number;
-    page: number;
-    version: string;
-}
-
 
 
