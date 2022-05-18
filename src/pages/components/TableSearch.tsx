@@ -1,12 +1,11 @@
+import { useContext } from "react";
+import { UserListContext } from "../../context/UserListContext";
 import { UserResult } from "../../services/users/types";
 
-interface TableSearchProps{
-  listUsers: Array<UserResult>|undefined
-}
 
-export default function TableSearch({listUsers}:TableSearchProps) {
+export default function TableSearch() {
   const optionsLanguage = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
-
+  const {userList} = useContext(UserListContext)
   return (
     <div className={`w-100 flex flex-col items-center justify-center`}>
       <div className="w-4/5 mb-4">
@@ -56,7 +55,7 @@ export default function TableSearch({listUsers}:TableSearchProps) {
         </thead>
         <tbody>
           {
-            listUsers&&listUsers.map((user,index:number)=>{
+            userList&&userList.map((user,index:number)=>{
               return (
                 <tr className="bg-white border-b hover:bg-gray-50 text-gray-900" key={index}>
                   <td scope="row" className="px-6 py-4 font-medium">

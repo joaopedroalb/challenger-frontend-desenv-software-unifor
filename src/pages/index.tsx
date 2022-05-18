@@ -1,20 +1,21 @@
 import type { NextPage } from "next";
 import Image from 'next/image'
 import { type } from "os";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import api from "../services/global/api";
 import { useUser } from "../services/users";
 import { UserResult } from "../services/users/types";
 import Loading from "./components/Loading";
 import TableSearch from "./components/TableSearch";
 import loading from '../assets/Loading.svg'
+import { UserListContext } from "../context/UserListContext";
 
 const PICTURE_DEFAULT = "https://mrconfeccoes.com.br/wp-content/uploads/2018/03/default.jpg"
 const PERSON_IMG_DEFAULT = "http://ibaseminario.com.br/novo/wp-content/uploads/2013/09/default-avatar.png"
 
 const Home: NextPage = () => {
 
-  const [userList,setUserList] = useState<Array<UserResult>>([])
+  const {userList,setUserList} = useContext(UserListContext)
   const [filterName,setFilterName] = useState('')
   
   const {data:listUser,isLoading,refetch, isFetching} = useUser({
